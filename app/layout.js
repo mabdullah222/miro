@@ -1,7 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import { Suspense } from "react";
+import { ConvexClientProvider } from "../providers/convex-client-provider";
 const inter = Inter({ subsets: ["latin"] });
+import { Toaster } from "sonner";
+import { ModalProvider } from "../providers/modal-provider";
 
 export const metadata = {
   title: "Create Next App",
@@ -11,7 +14,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Suspense fallback={<div>Loading</div>}>
+          <ConvexClientProvider>
+            <Toaster />
+            <ModalProvider />
+            {children}
+          </ConvexClientProvider>
+        </Suspense>
+      </body>
     </html>
   );
 }
